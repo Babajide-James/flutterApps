@@ -1,3 +1,4 @@
+import 'package:app1/end_of_game.dart';
 import 'package:app1/questions.dart';
 import 'package:flutter/material.dart';
 import 'answers.dart';
@@ -16,14 +17,10 @@ class Home extends StatefulWidget{
 
 class HomeState extends State<Home>{
   var listNumber = 0;
-  // var questionList = <String>[
-  //   'This is the game buddy',
-  //    'This is the next page button', 
-  //    'This is the third one'];
-
+  
      final quizQA = [{
-'question': 'What do you know?', 
-'Answer': ['my name', 'my school', 'my shop']
+'question': "Let's meet you!", 
+'Answer': ['Your name', 'Your school', 'Your shop', 'Your Gender']
 }, {
   'question': 'What is your full name', 
   'Answer': ['My name is Jack', 'My name is James', 'Jude' ]
@@ -35,13 +32,9 @@ class HomeState extends State<Home>{
    void listDigit(){
     setState(() {
     listNumber++;
-    if (listNumber >= quizQA.length){
-      listNumber = 0;
-    }
-    });
-  }
-  // void pressButton() => print('Answer selected!');
-  
+        });
+       }
+ 
   @override
   Widget build (BuildContext context) {
         return MaterialApp(
@@ -55,18 +48,17 @@ class HomeState extends State<Home>{
         ),
         body: SizedBox(
           width: double.infinity,
-          child: Column(
+          child: listNumber <= listNumber.bitLength ? Column(
               children:<Widget>[
           Questions(
             quizQA[listNumber]
             ['question'] as String),
           ...(quizQA[listNumber]['Answer'] as List<String>).map((justQuestions){
             return QuizAnswers(listDigit, justQuestions);
-          })              
-          ],
-         ),
+          }),
+              ]
+         ) : EndOfGame(),
         ), 
       
-    ));
-  }
-}
+      ));
+  }}

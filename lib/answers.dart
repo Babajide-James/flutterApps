@@ -16,8 +16,9 @@ class QuizAnswers extends StatelessWidget {
       width: double.infinity,
       child: 
       ElevatedButton(
-          style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 48, 193, 159)),
+          style: ElevatedButton.styleFrom( 
+            foregroundColor: Color.fromARGB(199, 30, 30, 8),
+              backgroundColor: const Color.fromARGB(255, 48, 193, 159)),
                 onPressed: streetWork, 
                 child: Text(textAnswer),
                 ),
