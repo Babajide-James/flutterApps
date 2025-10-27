@@ -1,64 +1,86 @@
 import 'package:app1/end_of_game.dart';
-import 'package:app1/questions.dart';
 import 'package:flutter/material.dart';
-import 'answers.dart';
+import './app_bar.dart';
+import 'quiz_options.dart';
 
-void main(){
+void main() {
   runApp(Home());
 }
-class Home extends StatefulWidget{
+
+class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
-  State<StatefulWidget> createState(){
+  State<StatefulWidget> createState() {
     return HomeState();
   }
 }
 
-class HomeState extends State<Home>{
-  var listNumber = 0;
-  
-     final quizQA = [{
-'question': "Let's meet you!", 
-'Answer': ['Your name', 'Your school', 'Your shop', 'Your Gender']
-}, {
-  'question': 'What is your full name', 
-  'Answer': ['My name is Jack', 'My name is James', 'Jude' ]
-}, {
-  'question': 'What is your favourite food?', 
-  'Answer': ['Rice', 'Bread', 'Pasta']
-  }];
+class HomeState extends State<Home> {
+  final _quizQA = [
+    {
+      'question': "Let's meet you!",
+      'Answer': [
+        {'text': 'Your name', 'scale': 10},
+        {'text': 'Your school', 'scale': 16},
+        {'text': 'Your shop', 'scale': 4},
+        {'text': 'Your Gender', 'scale': 12},
+      ],
+    },
+    {
+      'question': 'What is your full name',
+      'Answer': [
+        {'text': 'My name is Jack', 'scale': 10},
+        {'text': 'My name is James', 'scale': 8},
+        {'text': 'Jude', 'scale': 16},
+        {'text': 'Jude', 'scale': 4},
+      ],
+    },
+    {
+      'question': 'What is your favourite food?',
+      'Answer': [
+        {'text': 'Rice', 'scale': 10},
+        {'text': 'Bread', 'scale': 6},
+        {'text': 'Pasta', 'scale': 8},
+        {'text': 'Beans', 'scale': 2},
+      ],
+    },
+  ];
 
-   void listDigit(){
+  var _listNumber = 0;
+  var _resultScore = 0;
+
+  void resetQuiz() {
     setState(() {
-    listNumber++;
-        });
-       }
- 
+      _listNumber = 0;
+      _resultScore = 0;
+    });
+  }
+
+  void _listDigit(int scale) {
+    _resultScore += scale;
+    setState(() {
+      _listNumber++;
+    });
+  }
+
   @override
-  Widget build (BuildContext context) {
-        return MaterialApp(
+  Widget build(BuildContext context) {
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(  
-        appBar: AppBar(
-          title: Text("A New App"),
-          centerTitle: true,
-          foregroundColor: Color.fromARGB(255, 255, 239, 239),
-          backgroundColor: Color.fromARGB(255, 16, 56, 39),
-        ),
+      home: Scaffold(
+        appBar: Appbar(),
         body: SizedBox(
           width: double.infinity,
-          child: listNumber <= listNumber.bitLength ? Column(
-              children:<Widget>[
-          Questions(
-            quizQA[listNumber]
-            ['question'] as String),
-          ...(quizQA[listNumber]['Answer'] as List<String>).map((justQuestions){
-            return QuizAnswers(listDigit, justQuestions);
-          }),
-              ]
-         ) : EndOfGame(),
-        ), 
-      
-      ));
-  }}
+          child: _listNumber <= _listNumber.bitLength
+              ? QuizOptions(
+                  listDigit: _listDigit,
+                  quizQA: _quizQA,
+                  listNumber: _listNumber,
+                )
+              : EndOfGame(_resultScore, resetQuiz),
+        ),
+      ),
+    );
+  }
+}
